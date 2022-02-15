@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <Product>Web Form Email Sender</Product>
+    <Authors>Pawel Idzikowski</Authors>
+    <Copyright>(c) 2021 Pawel Idzikowski</Copyright>
+  </PropertyGroup>
+</Project>
