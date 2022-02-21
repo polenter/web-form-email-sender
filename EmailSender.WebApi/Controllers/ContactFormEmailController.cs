@@ -1,5 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Net.Mail;
+using EmailSender.WebApi.Extensions;
+using EmailSender.WebApi.Options;
 using EmailSender.WebApi.Services;
 using EmailSender.WebApi.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -39,12 +40,22 @@ namespace EmailSender.WebApi.Controllers
                 return KeyNotFound();
             }
 
-            var subject = string.Format(Captions.EmailSubject, clientMetadata.Website);
-            await _emailSender.SendEmailAsync(viewModel.SenderEmail, clientMetadata.TargetEmail, subject,
-                viewModel.Text);
+            try
+            {
+                var subject = string.Format(Captions.EmailSubject, clientMetadata.Website);
+                await _emailSender.SendEmailAsync(viewModel.SenderEmail, clientMetadata.TargetEmail, subject,
+                    viewModel.Text);
 
-            _logger.LogInformation(FormatLogMessage(viewModel, "Message sent."));
-            return Ok();
+                _logger.LogInformation(FormatLogMessage(viewModel, "Message sent."));
+                return Ok();
+            }
+            catch (SmtpException ex)
+            {
+                var errorMessage = ex.ConcatInnerMessages();
+                _logger.LogError(errorMessage);
+                return BadRequest(errorMessage);
+            }
+
         }
 
         private string FormatLogMessage(SendContactFormMessageViewModel viewModel, string? message = "")
