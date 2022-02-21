@@ -22,16 +22,18 @@ namespace EmailSender.WebApi.Email
             _logger = logger;
         }
 
-        public async Task SendEmailAsync(string from, string to, string subject, string htmlMessage)
+        public async Task SendEmailAsync(string replyTo, string to, string subject, string htmlMessage)
         {
             using (var client = CreateSmtpClientInstance())
             {
-                var m = new MailMessage(from, to, subject, htmlMessage)
+                var emailFrom = !string.IsNullOrEmpty(_options.Value.From) ? _options.Value.From : _options.Value.Username;
+                var m = new MailMessage(emailFrom, to, subject, htmlMessage)
                 {
-                    IsBodyHtml = true
+                    IsBodyHtml = true,
+                    ReplyToList = { replyTo }
                 };
 
-                _logger.LogInformation("Sending email '{subject}' from '{from}' to '{to}'.", subject, from, to);
+                _logger.LogInformation("Sending email '{subject}' from '{from}' to '{to}'.", subject, replyTo, to);
                 await client.SendMailAsync(m);
             }
         }
