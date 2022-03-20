@@ -27,7 +27,5 @@ namespace EmailSender.WebApi.ViewModels
         [StringLength(1000)]
         public string Text { get; set; }
 
-        public IFormFile? FormFile { get; set; }
-
     }
 }
