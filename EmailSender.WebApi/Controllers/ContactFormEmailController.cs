@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 namespace EmailSender.WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/contactform")]
     public class ContactFormEmailController : ControllerBase
     {
         private readonly IEmailSender _emailSender;

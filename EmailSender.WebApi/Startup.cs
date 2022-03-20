@@ -16,6 +16,7 @@ namespace EmailSender.WebApi
         {
 
             services.AddControllers();
+            services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();

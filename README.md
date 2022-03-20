@@ -16,6 +16,10 @@ Sends email after submitting a web form.
 
     docker run -d --rm -p 8090:5000 web-form-email-sender
 
+## API Call
+
+        POST api/contactform
+
 
 ## Web Form
 
